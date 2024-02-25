@@ -1,5 +1,3 @@
-Olá, este é o Copilot. Eu posso te ajudar a criar um readme para o seu projeto do github. 😊
-
 # Projeto de Arquitetura Orientada a Eventos com FastAPI, React e Redis
 
 Este projeto é um exemplo de como implementar uma arquitetura orientada a eventos, construindo um projeto do mundo real usando FastAPI, React e Redis. Um sistema orientado a eventos é uma forma comum de configurar software. Na arquitetura orientada a eventos, os manipuladores de eventos são registrados para eventos específicos. Quando ocorre um evento, os manipuladores são invocados.
