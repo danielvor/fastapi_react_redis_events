@@ -37,7 +37,7 @@ Usamos a função `get_redis_connection` para estabelecer uma conexão com o ban
 
 ### 4. Definição de Modelos
 
-No arquivo `consumer.py`, temos a definição de duas classes: Delivery e Event. 
+Criamos duas classes: Delivery e Event. 
 Essas classes são utilizadas para modelar e armazenar informações relacionadas a entregas e eventos no banco de dados Redis.
 
 - **Delivery**: Modela informações sobre entregas.
@@ -51,6 +51,9 @@ As rotas são essenciais para nossa API:
 - **@app.get('/deliveries/{pk}/status')**, **@app.post('/event')**, **@app.post('/deliveries/create')**, **@app.post('/event')**: Essas rotas gerenciam as entregas e eventos associados.
 - **Função build_state**: Essa função é crucial para construir o estado do sistema.
 
+### 6. Funções
+
+O arquivo `consumers.py` contém funções relacionadas ao status e eventos do produto.
 
 ## Requisitos
 
