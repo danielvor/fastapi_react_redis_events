@@ -1,7 +1,5 @@
 # Arquitetura Orientada a Eventos com FastAPI, React e Redis
 
-Neste README, vamos explorar os principais componentes e funcionalidades do seu sistema. Vamos lá:
-
 ## Visão Geral
 
 O objetivo deste projeto é praticar algoritmos em Python, criando uma arquitetura orientada a objetos com os seguintes componentes:
