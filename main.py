@@ -18,10 +18,11 @@ app.add_middleware(
 )
 
 redis = get_redis_connection(
-  host='redis-17210.c308.sa-east-1-1.ec2.cloud.redislabs.com',
-  port=17210,
-  password='Ow4OufCjBx2Wi45lRFJiBnQvn8HHEEuI',
-  decode_responses=True)
+    host="redis-19176.c308.sa-east-1-1.ec2.cloud.redislabs.com",
+    port="19176",
+    password="NFByW7sFpbXruKkRFnGzwJRFuq8DMCHC",
+    decode_responses=True
+)
 
 
 class Delivery(HashModel):
@@ -39,11 +40,6 @@ class Event(HashModel):
 
     class Meta:
         database = redis
-
-
-@app.get("/")
-async def read_index():
-    return FileResponse("react-events/build/index.html")
 
 
 @app.get('/deliveries/{pk}/status')
