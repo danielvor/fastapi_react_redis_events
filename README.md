@@ -1,6 +1,56 @@
-# Projeto de Arquitetura Orientada a Eventos com FastAPI, React e Redis
+# Arquitetura Orientada a Eventos com FastAPI, React e Redis**
 
-Este projeto é um exemplo de como implementar uma arquitetura orientada a eventos, construindo um projeto do mundo real usando FastAPI, React e Redis. Um sistema orientado a eventos é uma forma comum de configurar software. Na arquitetura orientada a eventos, os manipuladores de eventos são registrados para eventos específicos. Quando ocorre um evento, os manipuladores são invocados.
+Neste README, vamos explorar os principais componentes e funcionalidades do seu sistema. Vamos lá:
+
+## Visão Geral
+
+O objetivo deste projeto é praticar algoritmos em Python, criando uma arquitetura orientada a objetos com os seguintes componentes:
+
+1. **Backend com FastAPI**: Aqui, utilizamos o FastAPI para criar uma API robusta e eficiente. Ele nos permite definir rotas, gerenciar entregas e eventos associados.
+
+2. **Frontend com React**: O React é nossa escolha para a interface do usuário. Ele nos permite criar uma experiência interativa e responsiva para os usuários.
+
+3. **Banco de Dados Redis**: O Redis é nosso banco de dados. Ele é rápido, escalável e perfeito para armazenar informações sobre entregas e eventos.
+
+## Estrutura do Projeto
+
+Vamos dar uma olhada nas partes essenciais do código:
+
+### 1. Importações
+
+No arquivo `main.py`, começamos importando várias bibliotecas essenciais:
+
+- **FastAPI**: Nosso framework para criar a API.
+- **Middleware CORS**: Para lidar com solicitações de origens específicas.
+- **Conexão Redis**: Estabelecemos uma conexão com o banco de dados.
+- **HashModel**: Usado para modelar e armazenar informações.
+- **FileResponse**: Para servir arquivos estáticos.
+- **StaticFiles**: Montamos um diretório estático para servir arquivos.
+
+### 2. Configuração do Aplicativo
+
+Criamos uma instância do FastAPI e configuramos o diretório estático para servir arquivos do projeto React. Além disso, adicionamos um middleware CORS para permitir solicitações de origens específicas.
+
+### 3. Conexão com o Redis
+
+Usamos a função `get_redis_connection` para estabelecer uma conexão com o banco de dados Redis. Isso nos permite armazenar e recuperar informações sobre entregas e eventos.
+
+### 4. Definição de Modelos
+
+No arquivo `consumer.py`, temos a definição de duas classes: Delivery e Event. 
+Essas classes são utilizadas para modelar e armazenar informações relacionadas a entregas e eventos no banco de dados Redis.
+
+- **Delivery**: Modela informações sobre entregas.
+- **Event**: Armazena detalhes sobre eventos associados.
+
+### 5. Rotas
+
+As rotas são essenciais para nossa API:
+
+- **@app.get("/")**: Esta rota retorna o arquivo `index.html` do diretório de build do projeto React.
+- **@app.get('/deliveries/{pk}/status')**, **@app.post('/event')**, **@app.post('/deliveries/create')**, **@app.post('/event')**: Essas rotas gerenciam as entregas e eventos associados.
+- **Função build_state**: Essa função é crucial para construir o estado do sistema.
+
 
 ## Requisitos
 

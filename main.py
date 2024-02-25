@@ -1,11 +1,12 @@
-from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
-from redis_om import get_redis_connection, HashModel
-from fastapi.responses import FileResponse
-from fastapi.staticfiles import StaticFiles
-
+import os
 import json
 import consumers
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+from redis_om import get_redis_connection, HashModel
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="react-events/build/static"), name="static")
@@ -18,9 +19,9 @@ app.add_middleware(
 )
 
 redis = get_redis_connection(
-    host="redis-19176.c308.sa-east-1-1.ec2.cloud.redislabs.com",
-    port="19176",
-    password="NFByW7sFpbXruKkRFnGzwJRFuq8DMCHC",
+    host=os.getenv("REDIS_HOST"),
+    port=os.getenv("REDIS_PORT"),
+    password=os.getenv("REDIS_PASSWORD"),
     decode_responses=True
 )
 
@@ -41,7 +42,15 @@ class Event(HashModel):
     class Meta:
         database = redis
 
+'Esta rota retorna o arquivo index.html do diretório de build do projeto React.'
+@app.get("/")
+async def read_index():
+    return FileResponse("react-events/build/index.html")
 
+'''
+Esta rota retorna o estado de uma entrega específica. 
+Se o estado já estiver armazenado no Redis, ele é retornado diretamente. Caso contrário, o estado é construído chamando a função build_state, armazenado no Redis e então retornado.
+'''
 @app.get('/deliveries/{pk}/status')
 async def get_state(pk: str):
     state = redis.get(f'delivery:{pk}')
@@ -53,7 +62,10 @@ async def get_state(pk: str):
     redis.set(f'delivery:{pk}', json.dumps(state))
     return state
 
-
+'''
+Esta função constrói o estado de uma entrega processando todos os eventos associados a ela em ordem. 
+Cada evento é processado por uma função específica definida no módulo consumers, que é passada o estado atual e o evento e retorna o estado atualizado.
+'''
 def build_state(pk: str):
     pks = Event.all_pks()
     all_events = [Event.get(pk) for pk in pks]
@@ -65,7 +77,10 @@ def build_state(pk: str):
 
     return state
 
-
+'''
+Esta rota cria uma nova entrega e um evento associado. Ela recebe um objeto JSON no corpo da solicitação com informações sobre a entrega e o evento, 
+cria instâncias dos modelos Delivery e Event com essas informações, salva-os no Redis, atualiza o estado da entrega e retorna o estado atualizado.
+'''
 @app.post('/deliveries/create')
 async def create(request: Request):
     body = await request.json()
@@ -75,7 +90,10 @@ async def create(request: Request):
     redis.set(f'delivery:{delivery.pk}', json.dumps(state))
     return state
 
-
+'''
+ Esta rota recebe um evento associado a uma entrega existente. Ela recebe um objeto JSON no corpo da solicitação com informações sobre o evento, 
+ recupera o estado atual da entrega, cria uma instância do modelo Event com as informações do evento, atualiza o estado da entrega e retorna o estado atualizado.
+'''
 @app.post('/event')
 async def dispatch(request: Request):
     body = await request.json()
